@@ -1,16 +1,16 @@
 clear all
 
 % Ньютоны и метры.
-syms H m
-% H = 1;
-% m = 1;
+% syms H m
+H = 1;
+m = 1;
 
 % Свойства материала
 E = 0.71e+11 * H / m^2;
 v = 0.23;
 % Размеры и свойства сечений.
-a = 0.003 * m;
-b = 0.003 * m;
+a = 0.03 * m;
+b = 0.03 * m;
 A = a * b;
 Iz = a * a ^ 3 / 12;
 % Размеры балок.
@@ -66,8 +66,24 @@ A = [ % Общие узлы  1  2   3
 % Глобальная матрица жесткости.
 Kglobal = A.' * Kl * A;
 % Нагрузки и закрепления (граничные условия).
+syms Rx1 Ry1 Mz1 Rx2 Ry2 Mz2 Rx3 Ry3 Mz3 
+syms tx1 ty1 rz1 tx2 ty2 rz2 tx3 ty3 rz3
 
+F = [Rx1, Ry1, Mz1, Rx2, Ry2, Mz2, Rx3, Ry3, Mz3].';
+U = [tx1, ty1, rz1, tx2, ty2, rz2, tx3, ty3, rz3].';
 
+F = subs(F, [Mz1, Rx2, Ry2, Mz2, Ry3, Mz3], [0, 0, -1000 * H, 0, 0, 0]);
+U = subs(U, [tx1, ty1, tx3], [0, 0, 0]);
+% Система уравнений.
+Sys = Kglobal * U - F;
+res = solve(Sys, [Rx1, Ry1, rz1, tx2, ty2, rz2, Rx3, ty3, rz3]);
 
-
-
+Rx1 = double(res.Rx1)
+Ry1 = double(res.Ry1)
+rz1 = double(res.rz1)
+tx2 = double(res.tx2)
+ty2 = double(res.ty2)
+rz2 = double(res.rz2)
+Rx3 = double(res.Rx3)
+ty3 = double(res.ty3)
+rz3 = double(res.rz3)
