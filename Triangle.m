@@ -53,7 +53,7 @@ Kl = [
     horzcat(horzcat( Z, K2),  Z);
     horzcat(horzcat( Z,  Z), K3);
 ];
-% Построение матрицы соединений.
+% Построение матрицы связей.
 Z = zeros(3);
 O = eye(3);
 A = [ % Общие узлы  1  2   3
@@ -77,14 +77,14 @@ F = subs(F, [Mz1, Rx2, Ry2, Mz2, Ry3, Mz3], [0, 0, -1000 * H, 0, 0, 0]);
 U = subs(U, [tx1, ty1, tx3], [0, 0, 0]);
 % Система уравнений.
 Sys = Kglobal * U - F;
-res = solve(Sys, [Rx1, Ry1, rz1, tx2, ty2, rz2, Rx3, ty3, rz3]);
+result = solve(Sys, [Rx1, Ry1, rz1, tx2, ty2, rz2, Rx3, ty3, rz3]);
 
-Rx1 = double(res.Rx1)
-Ry1 = double(res.Ry1)
-rz1 = double(res.rz1)
-tx2 = double(res.tx2)
-ty2 = double(res.ty2)
-rz2 = double(res.rz2)
-Rx3 = double(res.Rx3)
-ty3 = double(res.ty3)
-rz3 = double(res.rz3)
+Rx1 = double(result.Rx1)
+Ry1 = double(result.Ry1)
+rz1 = double(result.rz1)
+tx2 = double(result.tx2)
+ty2 = double(result.ty2)
+rz2 = double(result.rz2)
+Rx3 = double(result.Rx3)
+ty3 = double(result.ty3)
+rz3 = double(result.rz3)
