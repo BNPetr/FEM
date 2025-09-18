@@ -1,2 +1,2 @@
 # FEM
-Finite element analysis using python and MATLAB
+Расчеты по методу конечных элементов с использованием python и MATLAB.
