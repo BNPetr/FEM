@@ -8,7 +8,7 @@ b = 0.03;
 % Площадь сечения.
 F = a * b;
 % Момент инерции сечения для оси z.
-Iz = a * a ^ 3 / 12;
+Iz = a * b ^ 3 / 12;
 % Размеры балок.
 L1 = 1;
 L2 = 1.5;
@@ -28,20 +28,20 @@ K3 = T3 * K3 * T3.';
 % Объединение матриц жесткости в одну, пустые места заполняются нулями.
 Z = zeros(6);
 Kl = [
-    horzcat(horzcat(K1,  Z),  Z);
-    horzcat(horzcat( Z, K2),  Z);
-    horzcat(horzcat( Z,  Z), K3);
+    horzcat(K1,  Z,  Z);
+    horzcat( Z, K2,  Z);
+    horzcat( Z,  Z, K3);
 ];
 % Построение матрицы связей.
 Z = zeros(3);
 O = eye(3);
-A = [ % Общие узлы  1  2   3
-    horzcat(horzcat(O, Z), Z); % Элемент 1, узел 1.
-    horzcat(horzcat(Z, O), Z); % Элемент 1, узел 2.
-    horzcat(horzcat(O, Z), Z); % Элемент 2, узел 1.
-    horzcat(horzcat(Z, Z), O); % Элемент 2, узел 2.
-    horzcat(horzcat(Z, O), Z); % Элемент 3, узел 1.
-    horzcat(horzcat(Z, Z), O); % Элемент 3, узел 2.
+A = [ % Общие узлы  1  2  3
+            horzcat(O, Z, Z); % Элемент 1, узел 1.
+            horzcat(Z, O, Z); % Элемент 1, узел 2.
+            horzcat(O, Z, Z); % Элемент 2, узел 1.
+            horzcat(Z, Z, O); % Элемент 2, узел 2.
+            horzcat(Z, O, Z); % Элемент 3, узел 1.
+            horzcat(Z, Z, O); % Элемент 3, узел 2.
     ];
 % Глобальная матрица жесткости.
 Kglobal = A.' * Kl * A;
